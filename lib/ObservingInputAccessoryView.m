@@ -159,11 +159,16 @@
     }
     
     CGRect endFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    _keyboardHeight = [UIScreen mainScreen].bounds.size.height - endFrame.origin.y;
+    CGRect beginFrame = [notification.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    if (endFrame.origin.y > beginFrame.origin.y) {
+        _keyboardHeight = [UIScreen mainScreen].bounds.size.height - endFrame.origin.y;
+    }else {
+        _keyboardHeight = [UIScreen mainScreen].bounds.size.height - beginFrame.origin.y;
+    }
     
     [_delegate observingInputAccessoryViewDidChangeFrame:self];
     
-	[self invalidateIntrinsicContentSize];
+    [self invalidateIntrinsicContentSize];
 }
 
 @end
